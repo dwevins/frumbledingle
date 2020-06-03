@@ -10,5 +10,6 @@ require('./bootstrap');
 window.Vue = require('vue');
 
 Vue.component('locations-table', require('./components/LocationsTable.vue'));
+Vue.component('categories-table', require('./components/CategoriesTable.vue'));
 
 new Vue({el: '#app-container'});
