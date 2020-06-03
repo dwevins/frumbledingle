@@ -13,6 +13,6 @@ class Category extends Model
 
     public function parentId()
     {
-        return $this->hasOne('App\Models\Category');
+        return $this->belongsTo(Category::class, 'parent_id');
     }
 }
