@@ -29,7 +29,7 @@
                     <td>{{ row.id }}</td>
                     <td>{{ row.name }}</td>
                     <td>{{ row.parent_id || 'NULL' }}</td>
-                    <!-- <td align="center"><button class="btn btn-danger btn-sm" @click.prevent="deleteLocation(row.id)"><i class="fa fa-times" /> Delete</button></td> -->
+                    <td align="center"><button class="btn btn-danger btn-sm" @click.prevent="deleteCategory(row.id)"><i class="fa fa-times" /> Delete</button></td>
                 </tr>
             </tbody>
         </table>
@@ -66,6 +66,11 @@ export default {
             return axios.post('/api/categories', {...this.newCategory})
                 .then(this.getCategories)
                 .then(() => this.newCategory = {...DEFAULT_CAT})
+                .catch(console.error);
+        },
+        deleteCategory(id) {
+            return axios.post('/api/categories/' + id, {_method: 'DELETE'})
+                .then(this.getCategories)
                 .catch(console.error);
         }
     }
