@@ -1,7 +1,7 @@
 <template>
     <div>
         <form @submit.prevent="createCategory">
-            <div class="create-location-form input-group">
+            <div class="create-category-form input-group">
                 <div class="input-group-prepend">
                     <span class="input-group-text">Name</span>
                 </div>
@@ -28,7 +28,7 @@
                 <tr v-for="row in categories" :key="row.id">
                     <td>{{ row.id }}</td>
                     <td>{{ row.name }}</td>
-                    <td>{{ row.parent_id || 'NULL' }}</td>
+                    <td>{{ row.parent ? row.parent.name : 'NULL' }}</td>
                     <td align="center"><button class="btn btn-danger btn-sm" @click.prevent="deleteCategory(row.id)"><i class="fa fa-times" /> Delete</button></td>
                 </tr>
             </tbody>
@@ -59,7 +59,6 @@ export default {
             return axios.get('/api/categories')
                 .then(response => {
                     this.categories = response.data;
-                    console.log(this.categories)
                 }).catch(console.error);
         },
         createCategory() {
@@ -76,3 +75,9 @@ export default {
     }
 }
 </script>
+
+<style>
+.create-category-form {
+    margin-bottom: 10px;
+}
+</style>

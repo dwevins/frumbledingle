@@ -10,7 +10,7 @@ class CategoryController extends Controller
 {
     public function index()
     {
-        return response()->json(Category::get());
+        return response()->json(Category::with('parent')->get());
     }
 
     public function store(Request $request)

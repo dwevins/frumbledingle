@@ -11,7 +11,7 @@ class Category extends Model
 
     protected $guarded = ['id'];
 
-    public function parentId()
+    public function parent()
     {
         return $this->belongsTo(Category::class, 'parent_id');
     }
