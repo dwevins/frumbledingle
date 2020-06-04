@@ -44,7 +44,7 @@
                     <td>{{ row.category.name }}</td>
                     <td>{{ row.location.name }}</td>
                     <td>{{ row.price }}</td>
-                    <!-- <td align="center"><button class="btn btn-danger btn-sm" @click.prevent="deleteLocation(row.id)"><i class="fa fa-times" /> Delete</button></td> -->
+                    <td align="center"><button class="btn btn-danger btn-sm" @click.prevent="deleteItem(row.id)"><i class="fa fa-times" /> Delete</button></td>
                 </tr>
             </tbody>
         </table>
@@ -83,6 +83,11 @@ export default {
             return axios.post('/api/items', {...this.newItem})
                 .then(this.getItems)
                 .then(() => this.newItem = {...DEFAULT_ITEM})
+                .catch(console.error);
+        },
+        deleteItem(id) {
+            return axios.post('/api/items/' + id, {_method: 'DELETE'})
+                .then(this.getItems)
                 .catch(console.error);
         }
     }
