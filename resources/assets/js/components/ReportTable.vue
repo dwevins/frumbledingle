@@ -1,5 +1,17 @@
 <template>
     <div>
+        <form @submit.prevent="getResults">
+            <div class="filter-results-form input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Minimum Price</span>
+                </div>
+                <input v-model="price" type="number" class="form-control"/>
+
+                <div class="input-group-append">
+                    <button class="btn btn-primary">Filter</button>
+                </div>
+            </div>
+        </form>
         <table class="table table-striped table-bordered">
             <thead class="thead-dark">
                 <th>Location</th>
@@ -30,16 +42,25 @@ export default {
         }
     },
     mounted() {
-        this.getResults();
+        this.getResults(this.price);
     },
     methods: {
         getResults() {
-            return axios.get('/api/report')
+            return axios.get('/api/report', { 
+                params: {
+                    price: this.price
+                    } 
+                })
                 .then(response => {
                     this.results = response.data;
-                    console.log(this.results);
                 }).catch(console.error);
         }
     }
 }
 </script>
+
+<style>
+.filter-results-form {
+  margin-bottom: 10px;
+}
+</style>
