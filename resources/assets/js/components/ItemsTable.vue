@@ -2,7 +2,7 @@
     <div>
         <span>Items</span>
         <form @submit.prevent="createItem">
-            <div class="create-location-form input-group">
+            <div class="create-item-form input-group">
                 <div class="input-group-prepend">
                     <span class="input-group-text">Name</span>
                 </div>
