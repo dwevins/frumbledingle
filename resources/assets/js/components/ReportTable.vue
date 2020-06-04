@@ -6,13 +6,13 @@
                 <th>Parent Category</th>
                 <th>Category</th>
                 <th>Count</th>
-                <th></th>
             </thead>
             <tbody>
                 <tr v-for="row in results" :key="row.id">
                     <td>{{ row.location }}</td>
                     <td>{{ row.parent }}</td>
                     <td>{{ row.category }}</td>
+                    <td>{{ row.count }}</td>
                 </tr>
             </tbody>
         </table>

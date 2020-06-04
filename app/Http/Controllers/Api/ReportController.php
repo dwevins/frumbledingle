@@ -14,7 +14,7 @@ class ReportController extends Controller
             ->join('locations as L', 'items.location_id', '=', 'L.id')
             ->join('categories as C', 'items.category_id', '=', 'C.id')
             ->join('categories as P', 'C.parent_id', '=', 'P.id')
-            ->selectRaw('L.name as location, P.name as parent, C.name as category')
+            ->selectRaw('L.name as location, P.name as parent, C.name as category, count(items.name) as count')
             ->whereNull('L.deleted_at')
             ->whereNull('C.deleted_at')
             ->whereNull('P.deleted_at')
