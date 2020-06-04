@@ -10,7 +10,16 @@
                 <div class="input-group-prepend">
                     <span class="input-group-text">Parent</span>
                 </div>
-                <input v-model="newCategory.parentId" type="text" class="form-control" placeholder="Parent ID" />
+                <select class="form-control" id="parentSelect" v-model="newCategory.parentId">
+                    <option>None</option>
+                    <option 
+                        v-for="cat in categories"
+                        v-bind:value="cat.id"
+                        v-bind:key="cat.id"
+                    >
+                        {{ cat.name }}
+                    </option>
+                </select>
 
                 <div class="input-group-append">
                     <button class="btn btn-primary">Create</button>
