@@ -10,32 +10,26 @@ class ReportController extends Controller
 {
     public function index(Request $request)
     {
-        $response = DB::table('items')
-            ->join('locations as L', 'items.location_id', '=', 'L.id')
-            ->join('categories as C', 'items.category_id', '=', 'C.id')
-            ->join('categories as P', 'C.parent_id', '=', 'P.id')
-            ->selectRaw('L.name as location, P.name as parent, C.name as category, count(items.name) as count')
-            ->whereNull('L.deleted_at')
-            ->whereNull('C.deleted_at')
-            ->whereNull('P.deleted_at')
-            ->groupBy('L.name', 'C.name', 'P.name')
-            ->orderBy('L.name', 'asc')
-            ->get();
+        $result = DB::select(
+            '
+                SELECT l.name AS location, p.name AS parent , c.name AS category, count(items.name) AS count
+                FROM items
+                LEFT JOIN locations l ON (items.location_id = l.id)
+                LEFT JOIN categories c ON (items.category_id = c.id)
+                LEFT JOIN categories p ON c.parent_id =
+                    CASE 
+                        WHEN c.parent_id IS NULL
+                            then NULL
+                        ELSE p.id
+                    END
+                WHERE l.deleted_at IS NULL
+                AND c.deleted_at IS NULL
+                AND p.deleted_at IS NULL
+                GROUP BY l.name, c.name, p.name
+                ORDER BY l.name
+            '
+        );
 
-        
-        return response()->json($response);
+        return response()->json($result);
     }
 }
-
-// select l.name as Location, parent.name as 'Parent Category' , c.name as Category, count(items.name) as Count
-// from items
-// left join locations l on (items.location_id = l.id)
-// left join categories c on (items.category_id = c.id)
-// left join categories parent on c.parent_id =
-// 	case 
-// 		when c.parent_id is null
-// 			then null
-// 		else parent.id
-// 		end
-// group by l.name, c.name, c.parent_id
-// order by l.name;
