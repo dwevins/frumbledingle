@@ -4,12 +4,13 @@ namespace App\Http\Controllers\Api;
 
 use Illuminate\Routing\Controller;
 use App\Models\Item;
+use Illuminate\Http\Request;
 
 class ItemController extends Controller
 {
     public function index()
     {
-        return response()->json(Item::get());
+        return response()->json(Item::with(['category', 'location'])->get());
     }
 
     public function store(Request $request)
