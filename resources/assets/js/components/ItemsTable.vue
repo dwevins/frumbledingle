@@ -11,12 +11,30 @@
                 <div class="input-group-prepend">
                     <span class="input-group-text">Category</span>
                 </div>
-                <input v-model="newItem.category" type="text" class="form-control" placeholder="Item Category" />
+                <!-- <input v-model="newItem.category" type="text" class="form-control" placeholder="Item Category" /> -->
+                <select class="form-control" id="categorySelect" v-model="newItem.category">
+                    <option 
+                        v-for="cat in categories"
+                        v-bind:value="cat.id"
+                        v-bind:key="cat.id"
+                    >
+                        {{ cat.name }}
+                    </option>
+                </select>
 
                 <div class="input-group-prepend">
                     <span class="input-group-text">Location</span>
                 </div>
-                <input v-model="newItem.location" type="text" class="form-control" placeholder="Item Location" />
+                <!-- <input v-model="newItem.location" type="text" class="form-control" placeholder="Item Location" /> -->
+                <select class="form-control" id="locationSelect" v-model="newItem.location">
+                    <option 
+                        v-for="loc in locations"
+                        v-bind:value="loc.id"
+                        v-bind:key="loc.id"
+                    >
+                        {{ loc.name }}
+                    </option>
+                </select>
 
                 <div class="input-group-prepend">
                     <span class="input-group-text">Price</span>
@@ -65,18 +83,33 @@ export default {
     data() {
         return {
             items: [],
+            categories: [],
+            locations: [],
             newItem: {...DEFAULT_ITEM}
         };
     },
     mounted() {
         this.getItems();
+        this.getCategories();
+        this.getLocations();
     },
     methods: {
         getItems() {
             return axios.get('/api/items')
                 .then(response => {
                     this.items = response.data;
-                    console.log(this.items);
+                }).catch(console.error);
+        },
+        getCategories() {
+            return axios.get('/api/categories')
+                .then(response => {
+                    this.categories = response.data;
+                }).catch(console.error);
+        },
+        getLocations() {
+            return axios.get('/api/locations')
+                .then(response => {
+                    this.locations = response.data;
                 }).catch(console.error);
         },
         createItem() {
